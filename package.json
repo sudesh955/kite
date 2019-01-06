@@ -23,6 +23,7 @@
     "jest": "^23.6.0",
     "lerna": "^3.8.1",
     "prettier": "^1.15.3",
-    "rollup": "^1.0.1"
+    "rollup": "^1.0.1",
+    "rollup-plugin-babel": "^4.2.0"
   }
 }

@@ -1,8 +1,8 @@
 {
 	"name": "@kite/hook",
 	"version": "0.0.0",
-	"devDependencies": {
-		"rollup": "^1.0.0"
+	"scripts": {
+		"build": "rollup -c"
 	},
 	"main": "./build/cjs/index.js",
 	"module": "./build/esm/index.js"

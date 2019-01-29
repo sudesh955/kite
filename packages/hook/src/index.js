@@ -1,7 +1,7 @@
 // @flow
 
 type Context = Object;
-type Job = (Context, ?any) => Promise<Context | null>;
+type Job = (Context, ?any) => Promise<Context | void | null>;
 type Execution = {context: Context, err: any, done: boolean};
 type Action = string;
 type Work = Action | Job;
@@ -85,6 +85,8 @@ export default function hookStore() {
         execution.done = true;
         execution.context = oldContext;
         return;
+      } else if (context === undefined) {
+        context = oldContext;
       }
     }
     execution.err = err;

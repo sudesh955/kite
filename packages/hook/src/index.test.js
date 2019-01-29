@@ -1,3 +1,4 @@
+// @flow
 import hooks from './index';
 
 const {pre, post, find, exec, hook} = hooks();
@@ -8,13 +9,14 @@ function uid() {
   return (i++).toString();
 }
 
-const nullJob = () => null;
+const nullJob = async () => null;
 
 describe('creation', () => {
   it('should create a task with given action and job', () => {
     const action = uid();
     hook(action, nullJob);
     const task = find(action);
+    if (task === undefined) throw new Error('Could not create task');
     expect(task.works.indexOf(nullJob)).not.toBe(-1);
   });
 
@@ -25,6 +27,7 @@ describe('creation', () => {
     hook(action, nullJob);
     const task2 = find(action);
     expect(task1).toBe(task2);
+    if (task1 === undefined) throw new Error('Could not create task');
     expect(task1.works.indexOf(nullJob)).not.toBe(
       task1.works.lastIndexOf(nullJob),
     );
@@ -37,6 +40,7 @@ describe('creation', () => {
     pre(action1, action2);
     post(action1, action3);
     const task = find(action1);
+    if (task === undefined) throw new Error('Could not create task');
     expect(task.pre.indexOf(action2)).not.toBe(-1);
     expect(task.post.indexOf(action3)).not.toBe(-1);
     expect(task.pre.indexOf(action3)).toBe(-1);
@@ -48,6 +52,7 @@ describe('creation', () => {
     pre(action, nullJob);
     post(action, nullJob);
     const task = find(action);
+    if (task === undefined) throw new Error('Could not create task');
     expect(task.pre.indexOf(nullJob)).not.toBe(-1);
     expect(task.post.indexOf(nullJob)).not.toBe(-1);
   });
@@ -173,13 +178,11 @@ describe('execution', () => {
     hook(preAction, async context => {
       counter(context);
       context.pre++;
-      return context;
     });
 
     hook(action, async context => {
       counter(context);
       context.on++;
-      return context;
     });
 
     hook(postAction, async context => {
@@ -208,9 +211,7 @@ describe('execution', () => {
 
     post(count, async context => {
       if (context.upto !== context.count) {
-        return await exec(count, context);
-      } else {
-        return context;
+        return exec(count, context);
       }
     });
 

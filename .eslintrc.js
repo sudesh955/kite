@@ -34,10 +34,6 @@ module.exports = {
     'valid-typeof': 0,
 
     'flowtype-errors/show-errors': 'error',
-  },
-  settings: {
-    react: {
-      version: '16.7.0',
-    },
+    'flowtype-errors/show-warnings': 'warn'
   },
 };
